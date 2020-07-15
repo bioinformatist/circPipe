@@ -1037,7 +1037,7 @@ if(run_mapsplice){
         shell:
         if(params.singleEnd){
             """
-            source activate mapsplice
+           
             mapsplice.py \
             -p ${task.cpus} \
             -k 1 \
@@ -1054,7 +1054,7 @@ if(run_mapsplice){
             """
         }else{
             """
-            source activate mapsplice
+          
             mapsplice.py \
             -p ${task.cpus} \
             -k 1 \
@@ -1401,10 +1401,11 @@ if(run_find_circ){
 
         shell:
         """     
+         source activate find_circ
         unmapped2anchors.py ${query_file} \
         | gzip \
         > find_circ_${sampleID}_anchors.qfa.gz
-
+        
         bowtie2 \
             -p ${task.cpus} \
             --reorder \
@@ -1673,11 +1674,11 @@ if(number_of_tools==1){
       index_base = index[0].toString() - ~/.\d.ht2/
        if(params.singleEnd){
             """
-             hisat2 -p ${task.cpus} -t -k 1 -x ${index_base} -U ${query_file} | samtools view -bS  -q 10 -  > ${sampleID}.bam 
+             hisat2 -p ${task.cpus} -t -k 1 -x ${index_base} -U ${query_file} --dta | samtools view -bS  -q 10 -  > ${sampleID}.bam 
             """
         }else{
             """
-            hisat2 -p ${task.cpus} -t -k 1 -x ${index_base} -1 ${query_file[0]}  -2 ${query_file[1]} | samtools view -bS -q 10 - > ${sampleID}.bam 
+            hisat2 -p ${task.cpus} -t -k 1 -x ${index_base} -1 ${query_file[0]}  -2 ${query_file[1]} --dta | samtools view -bS -q 10 - > ${sampleID}.bam 
             """
         }
     }

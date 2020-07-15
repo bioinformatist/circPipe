@@ -37,7 +37,7 @@ download and transfer the pipeline files manually:
 .. code:: bash
 
     mkdir -p ~/my-pipelines/
-    git clone https://github.com/likelet/cirPipe.git 
+    git clone https://github.com/likelet/circPipe.git 
     cd ~/my_data/
     nextflow run ~/my-pipelines/circPipe
 
@@ -90,7 +90,7 @@ Instructions <https://docs.docker.com/engine/installation/>`__
 Then, running the pipeline with the option ``-profile standard,docker``
 tells Nextflow to enable Docker for this run. An image containing all of
 the software requirements will be automatically fetched and used from
-dockerhub (https://hub.docker.com/r/likelet/cirpipe/).
+dockerhub (https://hub.docker.com/r/likelet/circpipe/).
 
 3.2) Software deps: Singularity
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -107,7 +107,7 @@ transfer the Singularity image first:
 
 .. code:: bash
 
-    singularity pull --name circPipe.simg shub://likelet/cirpipe
+    singularity pull --name circPipe.simg shub://likelet/circpipe
 
 Once transferred, use ``-with-singularity`` and specify the path to the
 image file:
@@ -154,9 +154,7 @@ As to build the different indexes, you can simply download from
 `igenome <https://support.illumina.com/sequencing/sequencing_software/igenome.html>`__,
 or using your own genome file and annotation file with the command lines
 introduced in ``Parameters`` section. Or you can just ignore the steps
-because circpipe will build the indexes automatically except knife. 
+because circpipe will build the indexes automatically. 
 
-.. note:: Download KNIFE If you want to use knife, you can download the package
-from (the url).
 
 

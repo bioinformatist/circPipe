@@ -15,7 +15,7 @@ Mandatory
 | --reads      | ``./*{1,2}.fq.gz | input raw      |
 |              | ``               | paired reads   |
 +--------------+------------------+----------------+
-| --designfile | ``FALSE``        | a txt file     |
+| --designfile | ``FALSE``        | A txt file     |
 |              |                  | that stored    |
 |              |                  | experimental   |
 |              |                  | design         |
@@ -26,8 +26,8 @@ Mandatory
 |              |                  | ``             |
 |              |                  | section above  |
 +--------------+------------------+----------------+
-| --comparefil | ``FALSE``        | a txt file     |
-| e            |                  | that stored    |
+| --comparefile| ``FALSE``        | A txt file     |
+|              |                  | that stored    |
 |              |                  | experimental   |
 |              |                  | compare        |
 |              |                  | information,   |
@@ -48,12 +48,6 @@ Configuration
 | Name         | Example/Default | Description    |
 |              | value           |                |
 +==============+=================+================+
-| --redir      | ``/path/to/refd | the folder     |
-|              | ir``            | containing all |
-|              |                 | reference      |
-|              |                 | files and      |
-|              |                 | index          |
-+--------------+-----------------+----------------+
 | --genomefile | ``path/to/refdi | Path to Fasta  |
 |              | r/chr2.fa``     | reference(requ |
 |              |                 | ired           |
@@ -76,10 +70,14 @@ Configuration
 +--------------+-----------------+----------------+
 | --ciridir/-- | ``/path/to/tool | Home folder of |
 | find\_circdi | s/directory``   | ciri/find\_cir |
-| r/--mapsdir/ |                 | c/mapsplice/kn |
-| --knifedir   |                 | ife            |
+| r/--mapsdir/ |                 | c/mapsplice    |
 |              |                 | installed      |
 |              |                 | location       |
+|              |                 |                |
++--------------+-----------------+----------------+
+|--genomebuild |``'hg19'``       |specific genome |
+|              | 'GRCh38', 'hg10'| build for      |
+|              | available       |circplot        |
 +--------------+-----------------+----------------+
 
 Optional
@@ -88,35 +86,20 @@ Optional
 +--------------+-----------------+----------------+
 | Name         | Default value   | Description    |
 +==============+=================+================+
-| --starindex/ | ``-``           | Path to        |
-| --bowtie2ind |                 | STAR/bowtie2/s |
-| ex/--bwainde |                 | egemehl/bowtie |
-| x/--segindex |                 | /bwa/mapsplice |
-| /--bowtieind |                 | /knife         |
-| ex/--refmaps |                 | index. If not  |
-| plice/--knif |                 | set, the       |
-| eindex       |                 | pipeline will  |
-|              |                 | create the     |
-|              |                 | index itself.  |
+|-profile      | ``standard``    | Configuration  |
+|              |                 | profile to use.|
+|              |                 | Available:     |
+|              |                 | standard,      |
+|              |                 | conda, docker, |
+|              |                 | singularity,   |
+|              |                 | test           |
 +--------------+-----------------+----------------+
 | --singleEnd  | ``false``       | specify that   |
 |              |                 | the reads are  |
 |              |                 | single ended   |
 +--------------+-----------------+----------------+
-| --merge      | ``true``        | merge the      |
-|              |                 | different      |
-|              |                 | matrixes       |
-|              |                 | produce by     |
-|              |                 | different      |
-|              |                 | tools and draw |
-|              |                 | the venn graph |
-+--------------+-----------------+----------------+
-| --separate   | ``false``       | annotate the   |
-|              |                 | results        |
-|              |                 | separately     |
-+--------------+-----------------+----------------+
-| --selectTool | ``1``           | specify which  |
-| s            |                 | tools should   |
+| --selectTools| ``1``           | specify which  |
+|              |                 | tools should   |
 |              |                 | be use. ``1``  |
 |              |                 | for            |
 |              |                 | circexplorer2, |
@@ -128,15 +111,18 @@ Optional
 |              |                 | mapsplice,     |
 |              |                 | ``5`` for      |
 |              |                 | segemehl,      |
-|              |                 | ``6`` for      |
-|              |                 | knife. For     |
-|              |                 | example, you   |
-|              |                 | can set        |
+|              |                 | For example,   |
+|              |                 | you can set    |
 |              |                 | ``1,2,3,4,5``  |
 |              |                 | for running    |
 |              |                 | five tools in  |
 |              |                 | the same time. |
 +--------------+-----------------+----------------+
+| --skipDE     | ``false``       | skip           |
+|              |                 | differential   |
+|              |                 | expression     |
+|              |                 | analysis       |
++--------------+-----------------+----------------+         
 | --outdir     | ``./Result``    | the output     |
 |              |                 | directory of   |
 |              |                 | the results    |
@@ -166,43 +152,10 @@ Detailed instruction of parameters
 -  ``--selectTools``
 
    specify which tools should be use. ``1`` for circexplorer2, ``2`` for
-   ciri, ``3`` for find\_circ, ``4`` for mapsplice, ``5`` for segemehl,
-   ``6`` for knife. For example, you can set
+   ciri, ``3`` for find\_circ, ``4`` for mapsplice, ``5`` for segemehl.
+   For example, you can set
    ``--selectTools='1,2,3,4,5'`` for running five tools in the same
    time.
-
--  ``--starindex``
-
-   path to the STAR index directory. To build the index, you can use the
-   command such as
-   ``STAR --runMode genomeGenerate --runThreadN 1 --genomeDir /home/wqj/test/starindex --genomeFastaFiles /home/wqj/database/circleTest/1.genome/chrX.fa --sjdbGTFfile /home/wqj/database/circleTest/1.genome/gencode.v25.annotation.chrX.gtf --sjdbOverhang 149``.
-
--  ``--segindex``
-
-   path to the Segemehl index directory. To build the index, you can use
-   the command such as ``./segemehl.x -d hg19.fa -x hg18.idx``.
-
--  ``--bowtie2index``
-
-   path to the Bowtie2 index directory. To build the index, you can use
-   the command such as ``bowtie2-build -f ../chrX.fa chrX``.
-
--  ``--bowtieindex``
-
-   path to the Bowtie index directory. To build the index, you can use
-   the command such as ``bowtie-build GENOME.fa GENOME``.
-
--  ``--bwaindex``
-
-   path to the BWA index directory. To build the index, you can use the
-   command such as
-   ``bwa index /home/wqj/database/circleTest/1.genome/chrX.fa -p genome``.
-
--  ``--knifeindex``
-
-   path to the KNIFE index directory. To build the index, you can follow
-   the step in README.md in
-   https://github.com/lindaszabo/KNIFE/tree/master/createJunctionIndex.
 
 -  ``--designfile``
 
@@ -232,144 +185,45 @@ Detailed instruction of parameters
    annotation file of genome in ``.txt`` format for running
    CIRCexplorer2. For example, ``hg38_gencode.txt``.
 
--  ``--bedfile``
-
-   annotation file of genome in ``.bed`` format for running
-   CIRCexplorer2. For example, ``gencode.v25.annotation.bed``.
-
--  ``--refmapsplice``
-
-   path to the reference files for Mapsplice directory.
-
--  ``--refdir``
-
-   path to the directory including all reference genome files and
-   indexes files.
-
 -  ``--singleEnd``
 
    ``true`` when using a single End reads input, default ``false``
 
--  ``--separate``
-
-   ``true`` when each selected pipelines producing its own results,
-   default ``false``
-
--  ``--merge``
-
-   ``true`` when all results produced by selected pipelines merge
-   together, default ``true``
-
--  ``--ciridir``
-
-   path to the CIRI scripts
-
--  ``--find_circdir``
-
-   path to the Find\_circ scripts
-
--  ``--mapsdir``
-
-   path to the Mapsplice scripts
-
--  ``--knifedir``
-
-   path to the KNIFE scripts
-
--  ``--otherTools``
-
-   path to the in house R,Python,Java scripts
-
 Configure profiles 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-As a nextflow-based analysis pipeline, CircPipe allow users edit configure file ``nextflow.config`` to set the index files and default file path parameters instead of typing them into the command line.
+As a nextflow-based analysis pipeline, CircPipe allow users to edit configure file ``nextflow.config`` to set the index files and default file path parameters instead of typing them into the command line.
 
-To configure, please go to ``params`` line, and set the following information of various file locations and system environment settings
+To configure, please go to ``params`` line, and set the following information of various file locations and system environment settings.
+Here, we use the test.config as an example.
 
 .. code:: groovy
 
     params {
 
-      container = 'likelet/circpipe:latest' // Container slug. Stable releases should specify release tag!
+  //reads files
+  reads = "Fastq/*_{1,2}.fq.gz"
 
-      //choose the tools
-      separate = false
-      merge = false
-      selectTools = '6'
+  // design files and compare file 
+  designfile="design.file"
+  comparefile="compare.txt"
 
-      //the necessary reference
-      refdir = '/data1/wqj/database/data/testdata/Genome'
-      annotationfile = "${params.refdir}/hg38_chr2_gencode.txt"
-      genomefile = "${params.refdir}/chr2.fa"
-      gtffile = "${params.refdir}/gencode_chr2.v25.annotation.gtf"
-      bedfile = "${params.refdir}/gencode_chr2.v25.annotation.bed"
-      refmapsplice = "${params.refdir}"
-      mRNA = "/data1/wqj/database/data/testdata/gencode.rsem.fpkm_m6Astatus_11_29.mat"
+  currentPath="/data2/zhaoqi/circlePipetest/"
+  //the necessary reference
+  refmapsplice = false
+  annotationfile = "${currentPath}Genome/hg19_chr2_refseq.txt" // for using circexplorer2, can be obtained from 
+  genomefile = "${currentPath}Genome/hg19_chr2.fa"
+  faifile = "${currentPath}Genome/hg19_chr2.fa.fai"
+  gtffile = "${currentPath}Genome/hg19_chr2.gencode.annotation.gtf"
+  mRNA = ""
 
-      //reads files
-      reads = "./*{1,2}.fq.gz"
-
-      //the indexes for tools
-      starindex = ""
-      segindex = ""
-      bowtie2index = ""
-      bowtieindex = ""
-      bwaindex = ""
-      knifeindex = ""
-
-      //the output directory
-      outdir = './Result'
-
-      //tools directory
-      ciridir = '/home/wqj/tools/CIRI/bin/CIRI_v2.0.6'
-      find_circdir = '/home/wqj/tools/find_circ'
-      mapsdir = '/home/wqj/miniconda3/envs/tools_in_python3/bin'
-      knifedir = '/home/wqj/tools/KNIFE'
-      otherTools = "$baseDir/bin"
-
-      //files of DE
-      designfile='/data1/wqj/database/data/testdata/design.file'
-      comparefile='/data1/wqj/database/data/testdata/compare.file'
-
-      singleEnd = false
-
-      email = '513848731@qq.com'
-
-      help = false
-      igenomes_base = "./iGenomes"
-      tracedir = "${params.outdir}/pipeline_info"
-      clusterOptions = false
-      awsqueue = false
-      awsregion = 'eu-west-1'
-
-    }
-    // Capture exit codes from upstream processes when piping
-    process.shell = ['/bin/bash', '-euo', 'pipefail']
-
-    timeline {
-      enabled = true
-      file = "${params.tracedir}/nf-core/cirpipe_timeline.html"
-    }
-    report {
-      enabled = true
-      file = "${params.tracedir}/nf-core/cirpipe_report.html"
-    }
-    trace {
-      enabled = true
-      file = "${params.tracedir}/nf-core/cirpipe_trace.txt"
-    }
-    dag {
-      enabled = true
-      file = "${params.tracedir}/nf-core/cirpipe_dag.svg"
-    }
-
-    manifest {
-      name = 'nf-core/cirpipe'
-      author = 'Qi Zhao(zhaoqi@sysucc.org.cn), Qijin Wei(513848731@qq.com)'
-      homePage = 'https://github.com/likelet/cirpipe'
-      description = 'cirRNA analysis pipe'
-      mainScript = 'main.nf'
-      nextflowVersion = '>=0.32.0'
-      version = '1.0dev'
-    }
+  // index files for each software 
+  starindex = "${currentPath}Genome/hg19_chr2_starindex"// path and prefix 
+  segindex = "${currentPath}Genome/hg19_chr2" // path only 
+  hisat2_index = "${currentPath}Genome/hg19_chr2_hisat2_index/hg19_chr2"
+  bowtie2index = "${currentPath}Genome/hg19_chr2" // path and prefix 
+  bowtieindex = "${currentPath}Genome/hg19_chr2" // path and prefix
+  bwaindex = "${currentPath}Genome/hg19_chr2" //path and prefix
+  skipDE = false
+  
+  }
